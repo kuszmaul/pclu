@@ -5,30 +5,37 @@
 
 Try gc-8.2.8
 
+cd repository
 export CLUHOME=$(pwd)
 wget https://www.hboehm.info/gc/gc_source/gc-8.2.8.tar.gz
 tar xf gc-8.2.8.tar.gz
 wget https://www.hboehm.info/gc/gc_source/libatomic_ops-7.8.2.tar.gz
 tar xf libatomic_ops-7.8.2.tar.gz
-(cd libatomic_ops-7.8.2;./configure --prefix=$CLUHOME/libatomic_ops)
-(cd libatomic_ops-7.8.2;make)
-(cd libatomic_ops-7.8.2;make install)
+(cd libatomic_ops-7.8.2;./configure --prefix=$CLUHOME/libatomic_ops;make install)
+(cd gc-8.2.8;./configure --enable-static=yes --enable-shared=no --enable-threads=no --prefix=$CLUHOME/gc;make;make install)
 
-(cd gc-8.2.8;./configure --enable-static=yes --enable-shared=no --enable-threads=no --prefix=$CLUHOME/gc)
-(cd gc-8.2.8;make;make install)
-
-## Set up symlinks
+## Set up symlinks (these are basically due to bugs in the makefile or possibly these instructions)
 
 ln -s code/include
-(cd include;ln -s ../../gc/include/gc)
-(cd code/include/gc;ln -s ../../gc-8.2.8/include/private)
-(cd code;ln -s 
-(cd exe;ln -s ln -s ../code/cmp/pclu)
-ln -s ../gc/lib/libgc.a
+ln -s ../../gc/include/gc code/include/gc
+ln -s ../../../gc-8.2.8/include/private code/include/gc/private
+ln -s ../gc/lib/libgc.a code/libgc.a 
+ln -s ../code/cmp/pclu exe/pclu
+
+
+%%% (cd include;ln -s ../../gc/include/gc)
+%%% (cd code/include/gc;ln -s ../../gc-8.2.8/include/private)
+%%% (cd code;ln -s 
+%%% ln -s ../gc/lib/libgc.a
 
 ## Follow bootstrapping the compiler
 (cd code;make -w OPT_FLAGS='-g -O0 -Wall -Wextra')
-(cd code/cmp; make -w OPT_FLAGS="-g -O0 -Wall -Wextra -L$CLUHOME/gc/lib")
+(cd code/cmp; make -w OPT_FLAGS="-g -O0 -Wall -Wextra")
+(cd lib;make libs)
+(cd cmpclu;make lib)
+(cd cmpclu;make -w OPT_FLAGS='-g -O0 -Wall -Wextra')
+(cd cmpclu;make -w OPT_FLAGS='-g -O0 -Wall -Wextra')
+git diff code # Should be no diff
 
 # Introduction
 
