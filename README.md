@@ -5,30 +5,30 @@
 
 Try gc-8.2.8
 
-export CLUHOME=/home/bradley/github/pclu
+export CLUHOME=$(pwd)
 wget https://www.hboehm.info/gc/gc_source/gc-8.2.8.tar.gz
 tar xf gc-8.2.8.tar.gz
 wget https://www.hboehm.info/gc/gc_source/libatomic_ops-7.8.2.tar.gz
-tar xf libatomic_ops-7.8.2.tar.gz |head
-./configure --prefix=$CLUHOME/libatomic
-make
-cd ..
+tar xf libatomic_ops-7.8.2.tar.gz
+(cd libatomic_ops-7.8.2;./configure --prefix=$CLUHOME/libatomic_ops)
+(cd libatomic_ops-7.8.2;make)
+(cd libatomic_ops-7.8.2;make install)
 
-cd gc-8.2.8
-./configure --enable-static=yes --enable-shared=no --enable-threads=no --prefix=$CLUHOME/gc
-make
-cd ..
+(cd gc-8.2.8;./configure --enable-static=yes --enable-shared=no --enable-threads=no --prefix=$CLUHOME/gc)
+(cd gc-8.2.8;make;make install)
+
+## Set up symlinks
 
 ln -s code/include
-ln -s /home/bradley/github/pclu/gc-8.2.8/include/private code/include/gc/private
-(cd exe;ln -s ln -s ../code/cmp/pclu)
-cd code
 (cd include;ln -s ../../gc/include/gc)
+(cd code/include/gc;ln -s ../../gc-8.2.8/include/private)
+(cd code;ln -s 
+(cd exe;ln -s ln -s ../code/cmp/pclu)
 ln -s ../gc/lib/libgc.a
 
-
 ## Follow bootstrapping the compiler
-make -w OPT_FLAGS='-g -O0 -Wall -Wextra' 
+(cd code;make -w OPT_FLAGS='-g -O0 -Wall -Wextra')
+(cd code/cmp; make -w OPT_FLAGS="-g -O0 -Wall -Wextra -L$CLUHOME/gc/lib")
 
 # Introduction
 
