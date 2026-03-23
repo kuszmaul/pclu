@@ -1,6 +1,34 @@
 - https://hg.sr.ht/~nbuwe/pclu
 - https://todo.sr.ht/~nbuwe/pclu
 
+# Changes
+
+Try gc-8.2.8
+
+export CLUHOME=/home/bradley/github/pclu
+wget https://www.hboehm.info/gc/gc_source/gc-8.2.8.tar.gz
+tar xf gc-8.2.8.tar.gz
+wget https://www.hboehm.info/gc/gc_source/libatomic_ops-7.8.2.tar.gz
+tar xf libatomic_ops-7.8.2.tar.gz |head
+./configure --prefix=$CLUHOME/libatomic
+make
+cd ..
+
+cd gc-8.2.8
+./configure --enable-static=yes --enable-shared=no --enable-threads=no --prefix=$CLUHOME/gc
+make
+cd ..
+
+ln -s /home/bradley/github/pclu/gc-8.2.8/include/private code/include/gc/private
+(cd exe;ln -s ln -s ../code/cmp/pclu)
+cd code
+(cd include;ln -s ../../gc/include/gc)
+ln -s ../gc/lib/libgc.a
+
+
+## Follow bootstrapping the compiler
+make -w OPT_FLAGS='-g -O0 -Wall -Wextra' 
+
 # Introduction
 
 This repository has as its base the latest pclu release fetched from

@@ -1,0 +1,10 @@
+*.o
+*.a
+*.lib
+*.gz
+*.tar
+*~
+exe/pclu
+code/cmp/pclu
+libatomic/
+gc/
