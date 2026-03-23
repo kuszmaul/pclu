@@ -22,12 +22,6 @@ ln -s ../../../gc-8.2.8/include/private code/include/gc/private
 ln -s ../gc/lib/libgc.a code/libgc.a 
 ln -s ../code/cmp/pclu exe/pclu
 
-
-%%% (cd include;ln -s ../../gc/include/gc)
-%%% (cd code/include/gc;ln -s ../../gc-8.2.8/include/private)
-%%% (cd code;ln -s 
-%%% ln -s ../gc/lib/libgc.a
-
 ## Follow bootstrapping the compiler
 (cd code;make -w OPT_FLAGS='-g -O0 -Wall -Wextra')
 (cd code/cmp; make -w OPT_FLAGS="-g -O0 -Wall -Wextra")
