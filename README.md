@@ -19,6 +19,7 @@ cd gc-8.2.8
 make
 cd ..
 
+ln -s code/include
 ln -s /home/bradley/github/pclu/gc-8.2.8/include/private code/include/gc/private
 (cd exe;ln -s ln -s ../code/cmp/pclu)
 cd code
