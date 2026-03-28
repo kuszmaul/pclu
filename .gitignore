@@ -8,3 +8,5 @@ exe/pclu
 code/cmp/pclu
 libatomic/
 gc/
+cludent/*.c
+
