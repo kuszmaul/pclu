@@ -9,4 +9,6 @@ code/cmp/pclu
 libatomic/
 gc/
 cludent/*.c
-
+code/sysasm/Debugger/*.c
+code/sysasm/Debugger/*.h
+code/libasm/Debugger/*.c
