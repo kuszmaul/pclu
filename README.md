@@ -23,13 +23,16 @@ ln -s ../gc/lib/libgc.a code/libgc.a
 ln -s ../code/cmp/pclu exe/pclu
 
 ## Follow bootstrapping the compiler
-(cd code;make -w OPT_FLAGS='-g -O0 -Wall -Wextra')
-(cd code/cmp; make -w OPT_FLAGS="-g -O0 -Wall -Wextra")
-(cd lib;make libs)
-(cd cmpclu;make lib)
-(cd cmpclu;make -w OPT_FLAGS='-g -O0 -Wall -Wextra')
-(cd cmpclu;make -w OPT_FLAGS='-g -O0 -Wall -Wextra')
-git diff code # Should be no diff
+
+Build the `libpclu_opt.a` library.
+
+	(cd code;make -w OPT_FLAGS='-g -O0 -Wall -Wextra')
+	(cd code/cmp; make -w OPT_FLAGS="-g -O0 -Wall -Wextra")
+	(cd lib;make libs)
+	(cd cmpclu;make lib)
+	(cd cmpclu;make -w OPT_FLAGS='-g -O0 -Wall -Wextra')
+	(cd cmpclu;make -w OPT_FLAGS='-g -O0 -Wall -Wextra')
+	git diff code # Should be no diff
 
 # Introduction
 
