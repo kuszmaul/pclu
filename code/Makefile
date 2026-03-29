@@ -22,8 +22,12 @@ optlib: optfiles libpclu_opt.a
 
 OPT = libclu/Opt/*.o sysclu/Opt/*.o libasm/Opt/*.o sysasm/Opt/*.o
 
-optfiles:
-	set -e; for i in ${CLIBDIRS}; do (cd $$i && ${MAKE} opt); done
+OPTFILES = $(patsubst %, %/opt, ${CLIBDIRS})
+optfiles: $(OPTFILES)
+
+%/opt: FORCE
+	cd $(patsubst %/opt,%,$@); ${MAKE} opt
+FORCE:
 
 libpclu_opt.a:
 	${RM} libpclu_opt.a
