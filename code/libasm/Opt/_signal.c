@@ -70,7 +70,7 @@ _signalOPset(CLUREF sig, CLUREF hold)
 	/* vec.sa_flags = SA_STACK; */
 	sigaction(sig.num, &vec, &ovec);
 	if (~(_signalOPflags & (1 << (sig.num - 1)))) {
-	    _signalOPflags |= 1 << (sig.num - 1); 
+	    _signalOPflags |= 1 << (sig.num - 1);
 	    _signalOPohands[sig.num - 1] = ovec.sa_handler;
 	    _signalOPomasks[sig.num - 1] = sigetmask(&ovec.sa_mask);
 	    /* _signalOPomasks[sig.num - 1] = ovec.sa_mask; */
@@ -107,7 +107,10 @@ int sig;
     CLUREF msgs = _signalOPmsgs;
     if (msgs.vec->data[sig - 1] != 0) {
 	CLUREF str = { .num = msgs.vec->data[sig - 1] };
-	write(1, str.str->data, str.str->size);
+        /* There's nothing we can do if `write` returns a short value, but we
+           need to bind the value to make the `-Wwarn_unused_result` compiler
+           warning happy. */
+	int ignore = write(1, str.str->data, str.str->size);
     }
 
 #ifdef CLU_DEBUG_IMPL
